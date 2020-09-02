@@ -4,13 +4,13 @@
 
 Member::Member()
 {
-	weight = 0;
+	this->weight = 0;
 }
 
 Member::Member(int memberID)
 {
 	this->memberID = memberID;
-	weight = 0;
+	this->weight = 0;
 }
 
 void Member::set_height(Length height)

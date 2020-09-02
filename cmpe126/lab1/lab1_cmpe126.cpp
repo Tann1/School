@@ -1,5 +1,6 @@
 #include "member.h"
 
+//just testing out the functionalities of Length and Member class
 
 int main()
 {
@@ -24,7 +25,7 @@ int main()
 	std::cout << "printing m1 after initalizing values" << std::endl;
 	std::cout << m1 << std::endl;
 	Length h(6,2);
-	m1.set_height(h); //fucking trollingggg
+	m1.set_height(h); 
 	std::cout << "printing m1 after changing height" << std::endl;
 	std::cout << m1 << std::endl;
 	return 0;

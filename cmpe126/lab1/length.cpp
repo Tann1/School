@@ -46,7 +46,7 @@ double Length::get_inches()
 
 Length Length::operator+(const Length& len)
 {
-	Length temp(this->feet, this->inches);
+	Length temp(this->feet, this->inches); //temp so I don't modify the actual object calling it
 	
 	temp.feet += len.feet + (temp.inches + len.inches) / 12;
 	temp.inches = (temp.inches + len.inches) % 12;

@@ -6,6 +6,7 @@
 class Member {
 
 	public:
+		//constructors
 		Member();
 		Member(int);
 
