@@ -1,0 +1,59 @@
+TASK 3
+
+1. What constructors did you need to use? Is one constructor enough?
+
+   One constructor is not enough. Depending on how we want to instaniate 
+   the object with initial data. For instance, you could create a length 
+   object with known values for feet and inches or you could use default 
+   values for it. 
+
+2. What is the difference between lines 5 and 6? Do you need special implementation to
+   support line 6?
+   
+   The main difference between line 5 and 6 is that line 5 prints one length object whereas
+   line 6 prints two length object in a single statement. You don't need a special implementation
+   to support line 6 since we already overloaded the << operator. 
+
+3. Do you need to overload the assignment operator to support any of the above operations?
+  
+   Yes you do need to overload the assignment opeartor since on line 8 we doing an assignment 
+   operation for the length object h1.
+
+4. What did you need to do to support line 8? What would happen if you tried to cout << inches +
+   h3 instead?
+  
+   To support line 8 you'd need to overload the = operator. As for trying the cout statement it
+   wouldn't work. The reason why it wouldn't work is because inches is to the left of the + 
+   operator. If we want it to work we'd need to to friend the overload for + and have int and
+   Length as the respective parameters.
+
+
+TASK 4
+
+1. What constructors did you need to use? Is one constructor enough?
+
+   I used two constructor, one deafult and one parameterized constructor. Typically in a large
+   scale project one constructor wouldn't be enough. Though there isn't any limitation to how
+   many constructors you can make. It really is upto to the developers and their design.
+
+2. Do you need to overload the assignment operator for the length class to support line 7?
+   Why or why not?
+   
+   You don't need to necessarily need to overload the assignment operator but it'll make for
+   a cleaner code to do so. It'll save a few lines and make the intention more clear that we
+   want to set the height with a = operator than using member functions from the length class
+   to achieve the same result. 
+
+3. Did you need to do any input validation to support lines 3 and 4? What about line 7?
+
+   It's never a bad idea to do data validation. For obvious reasons, yes you should have one
+   for line 3 since there are only 12 inches in a feet. As for the weight, line 4, it's depends
+   giving a person some benefit of the doubt I belive no more than triple digits is pretty sound
+   in terms of validation. As for line 7, it depends on the design of the developer and how and 
+   where they may want to validate the data.  
+
+
+
+
+
+ 
