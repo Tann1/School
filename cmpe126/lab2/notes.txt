@@ -1,0 +1,14 @@
+1. What operators should be overloaded for elemType in your implementation?
+	Considering that Triple class has member functions that involve getting the
+	min, max, and unique elements it's important to overload the comparision 
+	operators. For example, ==, <=, >= are all important to overload for an elemType.
+
+2. Can you make a triple using the Vector2D dicussed in class without modification? If so, why?
+   if not, what modifications will you need to make?
+	This questions is partially answer by the previous question.To reiterate it's 
+	important to understand what kind of services are offered by Triple through it's member
+	functions. For instance, Vector2D has the > overloaded so it might work to get min and max
+ 	if you finnese with the logic. Though getting unique number of elements might prove to be 
+	a challenge. Not the mention the contains() function heavily relies on == operator to do
+	the heavy lifting. Basically, any operators I've mentioned would need to be overloaded
+	in Vector2D in order to work consistently with class Triple. 
