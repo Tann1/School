@@ -15,8 +15,9 @@ class ArrayList
 		void print();
 		bool is_equal(int, elemType);
 		void insert(int, elemType);
+		void insert_end(elemType);
 		void remove(int);
-		elemType retreive_at(int);
+		elemType retrive_at(int);
 		void replace(int, elemType);
 		void clear_list();
 
@@ -77,7 +78,8 @@ void ArrayList<elemType>::print()
 		return;
 	}
 	for (int i = 0; i < this->curr_size; ++i)
-		std::cout << this->arr[i] << std::endl;
+		std::cout << this->arr[i] << " ";
+	std::cout << std::endl;
 }
 
 template <class elemType>
@@ -112,4 +114,62 @@ void ArrayList<elemType>::insert(int pos, elemType item)
 	}
 
 }
+
+template <class elemType>
+void ArrayList<elemType>::insert_end(elemType item)
+{
+	if (!this->is_full())
+		this->arr[curr_size++] = item;
+	else
+		std::cout << "list full, can't insert element at the end" << std::endl;
+}
+
+template <class elemType>
+void ArrayList<elemType>::remove(int pos) 
+{
+	if (pos < this->curr_size)
+		this->curr_size--;
+	for (int i = pos; i < curr_size; ++i)
+		this->arr[i] = this->arr[i + 1];
+}
+
+template <class elemType>
+elemType ArrayList<elemType>::retrive_at(int pos)
+{
+	if (pos >= this->curr_size) {
+		std::cout << "index out of position" << std::endl;
+		return NULL;
+	}
+	return this->arr[pos];
+
+}
+
+template <class elemType>
+void ArrayList<elemType>::replace(int pos, elemType item)
+{
+	if (pos < this->curr_size)
+		this->arr[pos] = item;
+}
+
+template <class elemType>
+void ArrayList<elemType>::clear_list() {
+	this->curr_size = 0;
+}
+
+template <class elemType>
+void ArrayList<elemType>::operator=(const ArrayList& other)
+{
+	delete [] this->arr;
+	this->curr_size = other.curr_size;
+	this->max = other.max;
+	
+	this->arr = new elemType[this->max];
+	for (int i = 0; i < this->curr_size; ++i)
+		this->arr[i] = other.arr[i];
+}
+
 #endif
+
+
+
+
