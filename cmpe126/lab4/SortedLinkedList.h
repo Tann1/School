@@ -24,9 +24,9 @@ class SortedList {
 		void insert(elemType);
 		void remove(elemType);
 		bool isItemInList(elemType);
-		elemType retriveAt(int);
+		elemType retrieveAt(int);
 		void clearList();
-		void operator=(const SortedList&);
+		void operator=(SortedList&);
 	private:
 		Node<elemType>* head;
 		unsigned int currSize;
@@ -84,7 +84,10 @@ void SortedList<elemType>::print()
 	Node<elemType>* temp = head;
 	
 	if(this->isEmpty())
+	{
+		std::cout << "list empty" << std::endl;
 		return;
+	}
 	while (temp != nullptr)
 	{
 		std::cout << temp->data << " ";
@@ -161,4 +164,47 @@ void SortedList<elemType>::remove(elemType item)
 		}
 	}
 }
+
+template <class elemType>
+bool SortedList<elemType>::isItemInList(elemType item) 
+{
+	Node<elemType>* temp = this->head;
+
+	while (temp != nullptr) {
+		if (temp->data == item)
+			return true;
+		temp = temp->next;
+	}
+	return false;
+}
+
+template <class elemType>
+elemType SortedList<elemType>::retrieveAt(int pos)
+{
+	Node<elemType>* temp = this->head;
+	int currPos = 0;
+
+	if (this->isEmpty())
+		return NULL;
+	while (currPos != pos && temp->next != nullptr)
+		currPos++, temp = temp->next;
+	if (currPos == pos)
+		return temp->data;	
+	return NULL;
+}
+
+template <class elemType>
+void SortedList<elemType>::operator=(SortedList& other)
+{
+	this->clearList();
+	this->currSize = 0;
+	this->maxSize = other.maxSize;
+
+	for (int i = 0; i < other.currSize; ++i)
+		this->insert(other.retrieveAt(i));
+}
+
+
+
+
 #endif
