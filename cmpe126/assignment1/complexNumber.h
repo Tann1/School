@@ -1,6 +1,8 @@
-
 template <class elemType> class Complex; //this extra step for templates with friends 
-template <class elemType> std::ostream& operator<<(std::ostream&, const Complex<elemType>&);
+template <class elemType> 
+std::ostream& operator<<(std::ostream&, const Complex<elemType>&);
+template <class elemType>
+std::istream& operator>>(std::istream&, Complex<elemType>&);
 
 
 template <class elemType>
@@ -22,6 +24,7 @@ class Complex {
 
 		
 		friend std::ostream& operator<< <>(std::ostream&, const Complex<elemType>&);
+		friend std::istream& operator>> <>(std::istream&, Complex<elemType>&);
 
 	private:
 		elemType real, imagine;
@@ -69,4 +72,11 @@ void Complex<elemType>::operator=(const Complex& other) {
 template <class elemType>
 std::ostream& operator<<(std::ostream& out, const Complex<elemType>& cmplx) {
 	return out << cmplx.real << " + " << cmplx.imagine << "i";
+}
+
+template <class elemType>
+std::istream& operator>> (std::istream& in , Complex<elemType>& cmplx) {
+	char dummy; //to catch the + character
+	in >> cmplx.real >> dummy >> cmplx.imagine;
+	return in;
 }
