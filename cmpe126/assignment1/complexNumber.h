@@ -1,3 +1,4 @@
+#include <cstdlib> //for the abs func
 template <class elemType> class Complex; //this extra step for templates with friends 
 template <class elemType> 
 std::ostream& operator<<(std::ostream&, const Complex<elemType>&);
@@ -9,6 +10,7 @@ template <class elemType>
 class Complex {
 	
 	public:
+		Complex(){}
 		Complex(elemType, elemType);
 	
 		void setReal(elemType);
@@ -71,12 +73,15 @@ void Complex<elemType>::operator=(const Complex& other) {
 
 template <class elemType>
 std::ostream& operator<<(std::ostream& out, const Complex<elemType>& cmplx) {
-	return out << cmplx.real << " + " << cmplx.imagine << "i";
+	char op = (cmplx.imagine < 0) ? '-' : '+';
+	return out << cmplx.real << op << abs(cmplx.imagine) << "i";
 }
 
 template <class elemType>
 std::istream& operator>> (std::istream& in , Complex<elemType>& cmplx) {
 	char dummy; //to catch the + character
 	in >> cmplx.real >> dummy >> cmplx.imagine;
+	if (dummy == '-')
+		cmplx.imagine *= -1;
 	return in;
 }
