@@ -1,0 +1,13 @@
+Tribonacci Number
+
+Tn = Tn-1 + Tn-2 + Tn-3 for n >= 4
+
+the base cases would be 
+T(1) = 1
+T(2) = 1
+T(3) = 2
+
+pseudo
+the base cases mentioned 
+otherwise
+return Tn-1 + Tn-2 + Tn-3
