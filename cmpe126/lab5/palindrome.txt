@@ -1,6 +1,7 @@
 part 1 
 
 base case string size being <= 1
+if base case then return true
 compare first and last index with each other
 if they're not same then return false
 
@@ -9,6 +10,6 @@ pass on the modified string recursively
 
 
 part 3
-No I feel like doing it iteratively would be much eaiser conceptually 
-and implementation wise. You can use a while with the indexes for the start and end
-as the condition for it. 
+Complexity would be O(n) this comes from the fact that you'd do n/2 recursive
+calls but since we discards all the const and only consider the highest term
+it'd be O(n).

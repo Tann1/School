@@ -24,7 +24,7 @@ class ArrayList
 
 		void operator=(const ArrayList&);
 	private:
-		elemType min(const elemType*, int);
+		void min(elemType*, int, int&);
 		elemType* arr;
 		int max;
 		int curr_size;
@@ -159,13 +159,20 @@ void ArrayList<elemType>::clear_list() {
 }
 
 template <class elemType>
-elemType ArrayList<elemType>::min( ) {
-	
+void ArrayList<elemType>::min(elemType* a, int index, int& min_pos) {
+	if (index == this->curr_size)
+		return;
+	if (a[index] <= a[min_pos])
+		min_pos = index;
+	min(a, index+1, min_pos);
 }
 
 template <class elemType>
 elemType ArrayList<elemType>::getMin() {
-
+	elemType* temp = this->arr;
+	int min_pos = 0, index = 0;
+	min(temp, index, min_pos);
+	return temp[min_pos];
 }
 
 template <class elemType>

@@ -1,3 +1,4 @@
+part 1
 Tribonacci Number
 
 Tn = Tn-1 + Tn-2 + Tn-3 for n >= 4
@@ -11,3 +12,61 @@ pseudo
 the base cases mentioned 
 otherwise
 return Tn-1 + Tn-2 + Tn-3
+
+part 3
+called t(7)
+	called t(6)
+		called t(5)
+			called t(4)
+				called t(3)
+					return t(3)
+				called t(2)
+					return t(2)
+				called t(1)
+					return t(1)
+			called t(3)
+				return t(3)
+			called t(2)
+				return t(2)
+		called t(4)
+			called t(3)
+				return t(3)
+			called t(2)
+				return t(2)
+			called t(1)
+				return t(1)
+		called t(3)
+			return t(3)
+	called t(5)
+		called t(4)
+			called t(3)
+				return t(3)
+			called t(2)
+				return t(2)
+			called t(1)
+				return t(1)
+		called t(3)
+			return t(3)
+		called t(2)
+			return t(2)
+	called t(4)
+		called t(3)
+			return t(3)
+		called t(2)
+			return t(2)
+		called t(1)
+			return t(1)
+return t(7)
+
+part 4
+
+Writing trionacci in a recursive manner is simple for the human brain to understand 
+but it's not the best algorithm for the computer. Even though this algo makes sense  
+to us a key part that we have that the computer doesn't, unless you tell it to, is 
+to remember stuff from the past. For example, if we're trying to calculate t(7) 
+we know we must add t(6) + t(5) + t(4) and let's say that we recently calculated t(4)
+we don't need to compute again what t(4) is for finding t(6) and t(5) but for the computer
+it's memory less. It doesn't understand that it calculated t(4) so it'd do it again ang again
+as it has been told to do from the the algo. This is easier to see if you refer back to part 3
+where I trace the algo for t(7). 
+
