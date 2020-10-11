@@ -68,5 +68,6 @@ we know we must add t(6) + t(5) + t(4) and let's say that we recently calculated
 we don't need to compute again what t(4) is for finding t(6) and t(5) but for the computer
 it's memory less. It doesn't understand that it calculated t(4) so it'd do it again ang again
 as it has been told to do from the the algo. This is easier to see if you refer back to part 3
-where I trace the algo for t(7). 
+where I trace the algo for t(7). For t(7) the algo re-computed t(4) 4 times, not the smartest
+algo for a bigger number. 
 
