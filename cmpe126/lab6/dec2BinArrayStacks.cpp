@@ -4,6 +4,38 @@
 #include <iomanip>
 #include "ArrayStack.h"
 
+/*
+//Recursive solution from line 9 to 37 
+std::string reverse(std::string str) {
+
+	unsigned int start = 0, end = str.length() - 1;
+	char temp;
+
+	while (start < end) {
+		temp = str[start];
+		str[start++] = str[end];
+		str[end--] = temp;
+	}
+
+	return str;
+
+}
+
+
+std::string generateBinary(unsigned int dec) {
+	std::string s(1, (dec % 2) + 48);
+
+	if (dec / 2 == 0) 
+		return s;
+	return s + generateBinary(dec/2);
+}
+
+std::string dtob(unsigned int dec) {
+	std::string result = generateBinary(dec); //the answer will be in reverse order
+	return reverse(result);
+	
+}
+*/
 
 std::string dtob(unsigned int dec) {
 	
@@ -22,7 +54,6 @@ std::string dtob(unsigned int dec) {
 	}
 	return result;
 }
-
 
 
 int main() {
