@@ -30,7 +30,7 @@ int type(std::string str) {
 }
 
 
-std::string toPostFix(std::string infix) {
+std::string toPostFix(std::string infix) { //this function does both characters and integer operands
 
 	std::stack<char> ops; //short for operators
 	std::string result = "";
@@ -52,7 +52,7 @@ std::string toPostFix(std::string infix) {
 					while (ops.top() != '(')
 						result = result + ops.top() + ' ', ops.pop();	
 					ops.pop(); //pop '('
-					curr_hiearachy = ops.empty() ? -1 : hiearachy(ops.top());
+					curr_hiearachy = ops.empty() ? -1 : hiearachy(ops.top()); //retrieve the previous heiarachy before entering the nested parenthesis (think of 4th test case)
 					str.erase(str.find(")") , 1);
 				}
 				break;
@@ -62,9 +62,9 @@ std::string toPostFix(std::string infix) {
 			case 3: //meaning just an operator
 				while (!ops.empty() && ops.top() != '(' && curr_hiearachy >= hiearachy(str[0])) {
 					result = result + ops.top() + ' ', ops.pop();
-					curr_hiearachy = ops.empty() ? -1 : hiearachy(ops.top());
+					curr_hiearachy = ops.empty() ? -1 : hiearachy(ops.top()); //update 
 				}
-				ops.push(str[0]);
+				ops.push(str[0]); //will always be the top of the stack operator
 				curr_hiearachy = hiearachy(str[0]);
 		}
 
