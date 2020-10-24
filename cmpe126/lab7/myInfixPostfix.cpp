@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 #include <sstream>
 #include <string>
 #include <stack>
@@ -19,11 +20,11 @@ int  hiearachy(char c) {
 
 
 int type(std::string str) {
-	if (str[0] == '(')
-		return 0;
-	if (str[str.length() - 1] == ')')
+	if (str[0] == '(') //parenthesis followed by an operand
+		return 0; 
+	if (str[str.length() - 1] == ')') //operand followed up an parenthesis
 		return 1;
-	if (operand(str[0]))
+	if (operand(str[0])) //vanilla operand
 		return 2;
 	return 3; //operator
 
@@ -36,7 +37,7 @@ std::string toPostFix(std::string infix) { //this function does both characters 
 	std::string result = "";
 	int curr_hiearachy = -1;
 	std::stringstream ss(infix);
-	std::string str; //will parse ss variable by spliting between spaces the str could be an operator, operand or parenthesis
+	std::string str; //will parse ss variable by spliting between spaces the str could be an operator, operand, or a combination of operand and parenthesis
 
 	while (ss >> str) {
 
@@ -77,14 +78,53 @@ std::string toPostFix(std::string infix) { //this function does both characters 
 
 }
 
+
+double evaluatePostFix(std::string expression) {
+
+	std::stack<double> operands;
+	std::stringstream ss(expression);
+	std::string str; //could be an operand or an operator
+	double operand_1, operand_2; //place holders for when we need to eval 
+
+	while (ss >> str) {
+
+		switch(type(str)) {
+			case 2: //meaning operand
+				if ((str[0] | 32) >= 'a' && (str[0] | 32) <= 'z') //if it's a character then return zero
+					return 0.0;
+				operands.push(stod(str));
+				break;
+			case 3: //meaning operator
+				operand_1 = operands.top(), operands.pop();
+				operand_2 = operands.top(), operands.pop();
+				switch(str[0]) {
+					case '+':
+						operands.push(operand_2 + operand_1);
+						break;
+					case '-':
+						operands.push(operand_2 - operand_1);
+						break;
+					case '*':
+						operands.push(operand_2 * operand_1);
+						break;
+					case '/':
+						operands.push(operand_2 / operand_1);
+						break;
+				}	
+
+		}
+		
+	}
+
+	return operands.top(); //at this only one element in the stack which is the result
+}
+
 int main(int argc, char **argv) {
 	
 	std::stringstream ss;
-	std::string s1, s2;
 
 	if (argc == 2) { //custom testing example usage <exe> arg1 where arg1 is a string e.g ./a.out "A + B - C" 
-		std::cout << toPostFix(argv[1]) << std::endl;
-		ss.str(argv[1]);
+		std::cout << toPostFix(argv[1]) << ": " << evaluatePostFix(toPostFix(argv[1])) << std::endl; 
 	}
 	else {
 		std::cout << toPostFix("A + B - C") << std::endl;

@@ -1,0 +1,46 @@
+﻿References
+
+
+
+
+
+
+String Manipulation -
+
+
+http://www.cplusplus.com/reference/string/string/erase/
+
+
+http://www.cplusplus.com/reference/string/to_string/
+
+
+http://www.cplusplus.com/reference/string/string/find/
+
+
+http://www.cplusplus.com/reference/string/string/substr/
+
+
+http://www.cplusplus.com/reference/sstream/stringstream/stringstream/
+
+
+http://www.cplusplus.com/reference/string/stod/
+
+
+
+
+
+
+Conditional - 
+https://www.tutorialspoint.com/cplusplus/cpp_switch_statement.htm#:~:text=Advertisements,is%20checked%20for%20each%20case.
+
+
+How I verified my answers - 
+
+
+https://www.mathblog.dk/tools/infix-postfix-converter/
+
+
+Basic Arithmetic precedence - 
+
+
+https://www.bouraspage.com/repository/algorithmic-thinking/what-is-the-precedence-of-arithmetic-operators#:~:text=Arithmetic%20operators%20follow%20the%20same,and%20subtraction%20are%20performed%20last.
