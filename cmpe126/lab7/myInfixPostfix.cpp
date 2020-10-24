@@ -52,14 +52,18 @@ std::string toPostFix(std::string infix) {
 
 }
 
-int main() {
+int main(int argc, char **argv) {
 
-	std::cout << toPostFix("A + B - C") << std::endl;
-	std::cout << toPostFix("(A + B) * C") << std::endl;
-	std::cout << toPostFix("(A + B) * (C - D)") << std::endl;
-	std::cout << toPostFix("A + ((B+C) * (E-F) - G) / (H - I)") << std::endl;
-	std::cout << toPostFix("A + B * (C + D) - E / F * G + H") << std::endl;
-	std::cout << toPostFix("A * (B + C * D) + C") << std::endl;
-	std::cout << toPostFix("2 * (3 + 4 - (5 - 6))") << std::endl;
+	if (argc == 2) //custom testing example usage <exe> arg1 where arg1 is a string e.g ./a.out "A + B - C" 
+		std::cout << toPostFix(argv[1]) << std::endl;
+	else {
+		std::cout << toPostFix("A + B - C") << std::endl;
+		std::cout << toPostFix("(A + B) * C") << std::endl;
+		std::cout << toPostFix("(A + B) * (C - D)") << std::endl;
+		std::cout << toPostFix("A + ((B+C) * (E-F) - G) / (H - I)") << std::endl;
+		std::cout << toPostFix("A + B * (C + D) - E / F * G + H") << std::endl;
+		std::cout << toPostFix("A * (B + C * D) + C") << std::endl;
+		std::cout << toPostFix("2 * (3 + 4 - (5 - 6))") << std::endl;
+	}
 	return 0;
 }
