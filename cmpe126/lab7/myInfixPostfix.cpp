@@ -7,12 +7,10 @@ bool operand(char c) {
 }
 
 int  hiearachy(char c) {
-	if (c == '-' || c == '+')
+	if (c == '+' || c == '-')
 		return 0;
-	if (c == '*')
+	if (c == '*' || c == '/')
 		return 1;
-	if (c == '/') 
-		return 2;
 	return -1;
 }
 
@@ -37,7 +35,7 @@ std::string toPostFix(std::string infix) {
 			result = result + ch + ' ';
 		}
 		else { //push the operator on the stack
-			while (!ops.empty() && ops.top() != '(' && curr_hiearachy > hiearachy(ch)) {
+			while (!ops.empty() && ops.top() != '(' && curr_hiearachy >= hiearachy(ch)) {
 				result = result + ops.top() + ' ', ops.pop();
 				curr_hiearachy = ops.empty() ? -1 : hiearachy(ops.top()); //update the current hiearachy 
 			}
@@ -50,7 +48,7 @@ std::string toPostFix(std::string infix) {
 	while (!ops.empty())
 		result = result + ops.top() + ' ', ops.pop();
 
-	return result;
+	return result.erase(result.size() - 1, 1); //remove the extra space at the end
 
 }
 
@@ -61,5 +59,7 @@ int main() {
 	std::cout << toPostFix("(A + B) * (C - D)") << std::endl;
 	std::cout << toPostFix("A + ((B+C) * (E-F) - G) / (H - I)") << std::endl;
 	std::cout << toPostFix("A + B * (C + D) - E / F * G + H") << std::endl;
+	std::cout << toPostFix("A * (B + C * D) + C") << std::endl;
+	std::cout << toPostFix("2 * (3 + 4 - (5 - 6))") << std::endl;
 	return 0;
 }
