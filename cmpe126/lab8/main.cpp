@@ -25,7 +25,7 @@ int main() {
 	catch(const char *e) {
 		cout << e << endl;
 	}
-	/*
+	
 	try{
 		stackQueue<char> charQueue2;
 		charQueue2.enqueue('A');
@@ -40,6 +40,6 @@ int main() {
 	}
 	catch(const char *e) {
 		cout << e << endl;
-	}*/
+	}
 	return 0;
 }
