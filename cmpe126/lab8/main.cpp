@@ -6,10 +6,17 @@
 //============================================================================
 
 #include <iostream>
+#include <stdlib.h>
+#include <time.h>
 #include "stackQueue.h"
 using namespace std;
 
 int main() {
+
+	srand(time(NULL));
+
+	arrayQueue<int> test(10); //checking for circular functionality
+
 	try{
 		arrayQueue<char> charQueue1;
 		charQueue1.enqueue('A');
@@ -41,5 +48,25 @@ int main() {
 	catch(const char *e) {
 		cout << e << endl;
 	}
+
+
+	std::cout << std::endl;
+	std::cout << "testing the circular functionality" << std::endl;
+
+	for (int i = 0; i < 10; ++i) 
+		test.enqueue(rand() % 15 + 1); //rand num from 1 to 15
+
+	for (int i = 0; i < 5; ++i)
+		std::cout << test.dequeue() << " ";
+	std::cout << std::endl;
+	
+	for (int i = 0; i < 5; ++i)
+		test.enqueue(rand() % 15 + 1);
+	for (int i = 0; i < 10; ++i)
+		std::cout << test.dequeue() <<  " ";
+	std::cout << std::endl;
+
+
+
 	return 0;
 }
