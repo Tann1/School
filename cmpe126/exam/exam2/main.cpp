@@ -50,7 +50,7 @@ int main(){
 	}
 	catch(const char* c){
 		cout << c << endl;
-	}
+	} 
 /****************** UNCOMMENT TO TEST BROWSER CODE *****************************
 	try{
 		Browser browser;
