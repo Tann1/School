@@ -10,16 +10,21 @@
 #include <stdlib.h>
 #include <time.h>
 #include "arrayListT.h"
+#include "SortedArrayList.h"
 using namespace std;
 
 int main() {
 	srand(time(NULL));
-	unsigned int choice = 0, element;
-	ArrayList<int> list(30);
+	unsigned int choice = 0, element, num;
+	unsigned int size = 30;
+	ArrayList<int> list(size);
+	SortedArrayList<int> sorted_list(size);
 
-	for (int i = 0; i < 30; ++i)
-		list.insertEnd(rand() % 100 + 1); //rand number from 1 to 100
-
+	for (int i = 0; i < size; ++i){
+		num = rand() % 100 + 1; //random number from 1 to 100
+		list.insertEnd(num);
+		sorted_list.insert(num);
+	}
 	
 	do {
 	        cout << "Choose your search type:" << endl;
@@ -35,23 +40,36 @@ int main() {
 	        cin >> choice;
 		if (choice == 0)
 			break;
-		std::cout << "List: "; list.print(); 
-
+		std::cout << "Size of the List: " << size << std::endl;
+		std::cout << "Unsorted List: "; list.print(); 
+		std::cout << "Sorted List  : "; sorted_list.print();
 
 	        cout<<"\nSpecify the element to be searched for: ";
 		cin >> element;
+		try {
+			switch (choice) {
+				case 1:
+					std::cout << "found element (seq. iter): " << element << " at position: " << list.seqSearchIter(element) << std::endl;
+					break;
 
-		switch (choice) {
-			case 1:
-				std::cout << "found element (seq. iter): " << element << " at position: " << list.seqSearchIter(element) << std::endl;
-				break;
+				case 2:
+					std::cout << "found element (seq. rec): " << element << " at position: " << list.seqSearchRec(element) << std::endl;
+					break;
+				case 3: //TODO
+					break;
+				case 4:
+					std::cout << "found element (bin. rec): " << element << " at position: " << sorted_list.binarySearchRec(element) << std::endl;
+					break;
+				case 5: //TODO
+					break;
+				case 6: //TODO
+					break;
 
-			case 2:
-				std::cout << "found element (seq. rec): " << element << " at position: " << list.seqSearchRec(element) << std::endl;
-				break;
-
+			}
 		}
-
+		catch(const char* msg) {
+			std::cout << msg << std::endl;
+		}
 		std::cout << std::endl << std::endl;
 
 	 } while(true);
