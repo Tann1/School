@@ -14,6 +14,8 @@ using namespace std;
 //input.erase(0, input.find(" ") + 1);
 string reverseWords(string input) {
 	
+
+
 	std::string result;	
 	if (input.find(" ") == std::string::npos) //meaning only one word
 		return input;
