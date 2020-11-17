@@ -119,7 +119,18 @@ void SortedArrayList<elemType>::clearList() {
 
 template <class elemType>
 unsigned int SortedArrayList<elemType>::binarySearchIter(elemType element) {
-
+	unsigned int low = 0, high = this->size - 1, mid;
+	
+	while (low <= high) {
+		mid = (high + low) / 2;
+		if (this->arr[mid] == element)
+			return mid;
+		if (this->arr[mid] < element) //ignore the lower half
+			low = mid + 1;
+		else
+			high = mid - 1; //ignore the upper half
+	}
+	return -1;
 }
 
 

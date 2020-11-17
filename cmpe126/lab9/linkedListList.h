@@ -38,6 +38,9 @@ public:
 	elemType retreiveAt(const unsigned int) const; 			// Retrieves object at position
 	void replaceAt(const unsigned int, const elemType &); 		// Replaces object at position with 2nd parameter
 	void clearList(); 					// Empties the list
+	bool seqSearchIter(elemType);
+	bool seqSearchRec(elemType);
+	bool recurse(Node<elemType>*, elemType);
 	LinkedListList &operator=(const LinkedListList &);
 	virtual ~LinkedListList();
 
@@ -77,7 +80,7 @@ unsigned int LinkedListList<elemType>::listSize() const {
 //This function is O(1)
 template<class elemType>
 unsigned int LinkedListList<elemType>::maxListSize() const {
-	return __INT_MAX__;
+	return -1;
 }
 
 //This function is O(n)
@@ -238,5 +241,36 @@ Node<elemType> *LinkedListList<elemType>::getNodeAt(const unsigned int position)
 	}
 	return temp;
 }
+
+template <class elemType>
+bool LinkedListList<elemType>::seqSearchIter(elemType element) {
+	Node<elemType>* temp = this->myListHead;
+	
+	if (temp == nullptr)
+		return false;	
+	while (temp->next != nullptr) {
+		if (temp->element == element)
+			return true;
+		temp = temp->next;
+	}
+	return false;
+}
+
+
+template <class elemType>
+bool LinkedListList<elemType>::seqSearchRec(elemType element) {
+	return recurse(this->myListHead, element);	
+}
+
+template <class elemType>
+bool LinkedListList<elemType>::recurse(Node<elemType>* temp, elemType element) {
+	if (temp == nullptr)
+		return false;
+	if (temp->element == element)
+		return true;
+	return recurse(temp->next, element);
+}
+
+
 
 #endif /* LINKEDLISTLIST_H_ */

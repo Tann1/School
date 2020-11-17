@@ -11,6 +11,7 @@
 #include <time.h>
 #include "arrayListT.h"
 #include "SortedArrayList.h"
+#include "linkedListList.h"
 using namespace std;
 
 int main() {
@@ -19,13 +20,16 @@ int main() {
 	unsigned int size = 30;
 	ArrayList<int> list(size);
 	SortedArrayList<int> sorted_list(size);
+	LinkedListList<int> linked_list;
 
 	for (int i = 0; i < size; ++i){
 		num = rand() % 100 + 1; //random number from 1 to 100
 		list.insertEnd(num);
 		sorted_list.insert(num);
+		linked_list.insertEnd(num);
 	}
 	
+	std::cout << std::boolalpha;
 	do {
 	        cout << "Choose your search type:" << endl;
 	        cout << "1. Arrays: Sequential Search without recursion" << endl;
@@ -55,14 +59,14 @@ int main() {
 				case 2:
 					std::cout << "found element (seq. rec): " << element << " at position: " << list.seqSearchRec(element) << std::endl;
 					break;
-				case 3: //TODO
+				case 3: std::cout << "found element (bin. iter): " << element << " at position: " << sorted_list.binarySearchIter(element) << std::endl; 
 					break;
 				case 4:
 					std::cout << "found element (bin. rec): " << element << " at position: " << sorted_list.binarySearchRec(element) << std::endl;
 					break;
-				case 5: //TODO
+				case 5: std::cout << "element (seq. iter): " << element << " exist: " <<  linked_list.seqSearchIter(element) << std::endl;
 					break;
-				case 6: //TODO
+				case 6: std::cout << "element (seq. rec): " << element << " exist: " << linked_list.seqSearchRec(element) << std::endl;
 					break;
 
 			}
