@@ -25,8 +25,8 @@ unsigned int JobQueue::getMaxNumJobs() const {
 void JobQueue::print() {
 	std::queue<unsigned int> temp = this->jobQueue;
 
-	for (int i = 0; i < temp.size(); ++i)
-		std::cout << temp.front() << " ";
+	while (!temp.empty())
+		std::cout << temp.front() << " ", temp.pop();
 }
 
 bool JobQueue::addJob(unsigned int ID) {
