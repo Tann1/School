@@ -4,8 +4,6 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <math.h>
-#include <stdio.h>
 
 
 struct Node {
@@ -42,7 +40,6 @@ ll_add(struct linked_list *ll, int value)
 	struct Node* temp;
 
 	if (ll == NULL) {			//if empty
-		printf("Linked List is empty must create list first\n");
 		return;
 	}
 	temp = (struct Node *) malloc(sizeof(struct Node));
