@@ -12,6 +12,10 @@
 #define MAX_NUM_TOKENS 64
 #define MAX_NUM_BG_PROCESSES 64
 
+
+static pid_t global_child_id;
+static int exec_type = -1;
+static bool print_prompt = true;
 /* Splits the string by space and returns the array of tokens
 *
 */
@@ -25,6 +29,7 @@ void background_exec(char **, pid_t*);
 void series_exec(char **);
 void parallel_exec(char **, int);
 void handle_sigint(int);
+void handle_sigchld(int);
 
 int main(int argc, char* argv[]) {
 	char  line[MAX_INPUT_SIZE];
@@ -33,12 +38,20 @@ int main(int argc, char* argv[]) {
 	int exit_code, type_of_exec, number_of_cmds, wstatus, bg_idx, freed_procs;
 	bool background_proc = false;
 	pid_t bg_child_id, child_id;
-	struct sigaction sa;
-	memset(&sa, 0, sizeof(sa));
-	sa.sa_handler = handle_sigint;
-	sa.sa_flags = SA_RESTART;
+	struct sigaction sa_sigint, sa_sigchld;
 
-	sigaction(SIGINT, &sa, NULL);
+	//initalize data to zero in both sigaction struct
+	memset(&sa_sigint, 0, sizeof(sa_sigint));
+	memset(&sa_sigchld, 0, sizeof(sa_sigchld));
+
+
+	sa_sigint.sa_handler = handle_sigint;
+	sa_sigint.sa_flags = SA_RESTART;
+
+	sigaction(SIGINT, &sa_sigint, NULL);
+
+	sa_sigchld.sa_handler = handle_sigchld;
+	//sigaction(SIGCHLD, &sa_sigchld, NULL);
 
 
 	FILE* fp;
@@ -64,7 +77,9 @@ int main(int argc, char* argv[]) {
 			}
 			line[strlen(line) - 1] = '\0';
 		} else { // interactive mode
+		    //if (print_prompt) //need for series being terminated by control signal
 			printf("$ ");
+			//fflush(stdout);
 			scanf("%[^\n]", line);
 			getchar();
 		}
@@ -165,6 +180,8 @@ char **tokenize(char *line, int *type_of_exec, int* number_of_cmds)
       	token[tokenIndex++] = readChar;
     }
   }
+
+  exec_type = *type_of_exec; //for signal handling purposes
 	
   free(token);
   if (*type_of_exec == 1)
@@ -233,7 +250,7 @@ void normal_exec(char **tokens) {
 		exit(EXIT_SUCCESS);
 	}
 		pid_t proc_id = fork();
-
+		global_child_id = proc_id;
 		if (proc_id < 0) {
 			error_msg();
 		}
@@ -314,6 +331,7 @@ void series_exec(char **tokens) {
 		exit(EXIT_SUCCESS);
 	}
 		proc_id = fork();
+		global_child_id = proc_id;
 		if (proc_id < 0)
 			error_msg();
 		else if (proc_id == 0) {
@@ -326,7 +344,10 @@ void series_exec(char **tokens) {
 		else {
 			//printf("waiting: %d cmd: %s\n", proc_id, cmd[0]);
 			child_id = waitpid(proc_id, &wstatus, 0);
+			if (WIFSIGNALED(wstatus)) {//if child exits cuz of sig kill
+				return; //stop the loop don't execute further series processes in queue.
 			//printf("exited: %d child_id: %d\n", wstatus, child_id);
+			}
 		}
 	}
 
@@ -359,6 +380,7 @@ void parallel_exec(char ** tokens, int num_of_cmds) {
 		exit(EXIT_SUCCESS);
 	}
 		proc_id = fork();
+		global_child_id = proc_id;
 		if (proc_id < 0)
 			error_msg();
 		else if (proc_id == 0) {
@@ -376,8 +398,27 @@ void parallel_exec(char ** tokens, int num_of_cmds) {
 }
 
 void handle_sigint(int sig) {
-		//printf("\nCurrent Process: %d Current Process's Parent: %d\n", getpid(), getppid());
-		//printf("Current Group Process: %d Current Process's Parent Group Process: %d\n", getpgid(getpid()), getpgid(getppid()));
-		printf("\n$ ");
-		fflush(stdout);
+		pid_t proc_grp;
+
+		if (global_child_id) { //here means I'm in the parent process
+			proc_grp = getpgid(getpid());
+			setpgid(getpid(), getpgid(getppid()));
+			//printf("type of exec: %d\n", exec_type);
+			//printf("(child_proc: %d) current proc: %d current proc group: %d", global_child_id, getpid(), getpgid(getpid()));
+			//if (exec_type != 1) //only kill processes that are in the foreground not the background when the sig int is given.
+			killpg(proc_grp, SIGKILL);
+			setpgid(0, 0);
+			write(1, "\n", 1);
+			exec_type = -1; //reset
+		}
+		else { //when global_child_id == 0 basically there is no child
+			write(1, "\n$ ", 3);
+			fflush(stdout);
+		}
+		global_child_id = 0;
+}
+
+void handle_sigchld(int sig) {
+	setpgid(0, 0);
+	printf("Child terminated or stopped\n");
 }
