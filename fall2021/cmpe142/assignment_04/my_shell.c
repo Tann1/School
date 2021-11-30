@@ -15,21 +15,18 @@
 
 static pid_t global_child_id;
 static int exec_type = -1;
-static bool print_prompt = true;
-/* Splits the string by space and returns the array of tokens
-*
-*/
+
 char **tokenize(char *line, int *type_of_exec, int* number_of_cmds);
 char *generateFilepath(const char *command);
 void error_msg();
 char **parse_cmd(char **, int*);
-void print(char **);
+void print(char **); //testing purposes
 void normal_exec(char **);
 void background_exec(char **, pid_t*);
 void series_exec(char **);
 void parallel_exec(char **, int);
 void handle_sigint(int);
-void handle_sigchld(int);
+
 
 int main(int argc, char* argv[]) {
 	char  line[MAX_INPUT_SIZE];
@@ -38,20 +35,16 @@ int main(int argc, char* argv[]) {
 	int exit_code, type_of_exec, number_of_cmds, wstatus, bg_idx, freed_procs;
 	bool background_proc = false;
 	pid_t bg_child_id, child_id;
-	struct sigaction sa_sigint, sa_sigchld;
+	struct sigaction sa_sigint;
 
 	//initalize data to zero in both sigaction struct
 	memset(&sa_sigint, 0, sizeof(sa_sigint));
-	memset(&sa_sigchld, 0, sizeof(sa_sigchld));
-
-
+	
 	sa_sigint.sa_handler = handle_sigint;
 	sa_sigint.sa_flags = SA_RESTART;
 
 	sigaction(SIGINT, &sa_sigint, NULL);
 
-	sa_sigchld.sa_handler = handle_sigchld;
-	//sigaction(SIGCHLD, &sa_sigchld, NULL);
 
 
 	FILE* fp;
@@ -73,9 +66,14 @@ int main(int argc, char* argv[]) {
 		bzero(line, sizeof(line));
 		if(argc == 2) { // batch mode
 			if(fgets(line, sizeof(line), fp) == NULL) { // file reading finished
-				break;	
+				argc = 0;
+				printf("$ ");
+				//fflush(stdout);
+				scanf("%[^\n]", line);
+				getchar();
 			}
-			line[strlen(line) - 1] = '\0';
+			if (argc)
+				line[strlen(line) - 1] = '\0';
 		} else { // interactive mode
 		    //if (print_prompt) //need for series being terminated by control signal
 			printf("$ ");
@@ -83,7 +81,7 @@ int main(int argc, char* argv[]) {
 			scanf("%[^\n]", line);
 			getchar();
 		}
-	
+		
 				
 		
 		//printf("Command entered: %s (remove this debug output later)\n", line);
@@ -99,6 +97,10 @@ int main(int argc, char* argv[]) {
 
 		switch(type_of_exec) {
 			case 0: //normal process
+				if (!strcmp(tokens[0], "exit")) { //if it's exit
+					killpg(getpid(), SIGKILL);
+					exit(EXIT_SUCCESS);
+				}
 				normal_exec(tokens);
 				break;
 			case 1:	//background process
@@ -352,7 +354,18 @@ void series_exec(char **tokens) {
 	}
 
 }
+/*
+	pid = pgid its the leader
+	fork children
+	pgid == ppid
+	sleep 120
+	shell -> pid 10 pgid 10
+	sleep -> pid 11 pgid 10
 
+	shell -> pgid -> pgid(ppid)
+	kkill(current_id == shell id)
+	shell -> pgid -> 10
+*/
 void parallel_exec(char ** tokens, int num_of_cmds) {
 	char* filepath;
 	char** cmd;
@@ -418,7 +431,3 @@ void handle_sigint(int sig) {
 		global_child_id = 0;
 }
 
-void handle_sigchld(int sig) {
-	setpgid(0, 0);
-	printf("Child terminated or stopped\n");
-}
