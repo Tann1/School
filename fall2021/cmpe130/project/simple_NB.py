@@ -14,7 +14,7 @@ def populate_data(filename: str) -> list:
     return data
 
 
-#This function will take at most O(m*n) where m = size of data and n = size of characteristics
+#This function will take at most O(m + n) where m = size of data and n = size of characteristics
 def find_probability(data, interest, characteristics):
     prior = 0                   #P(Y = interest)                                                                                O(1)
     prob_likelihood_evd = 1     #P(C1 | Y = interest) * P(C2 | Y = interest) * P(len(C) | Y = interest)                         O(1)
@@ -23,13 +23,14 @@ def find_probability(data, interest, characteristics):
 
     for data_idx in range(len(data) - 1):                                                                                      #O(m)
         if data[data_idx]['Type'].lower() == interest.lower():                                                                 #O(m - 1) -> O(m)
-            curr_data = data[data_idx]                                                                                         #O(m - 1) -> O(m)
-            prior = int(curr_data['Total']) / int(total['Total'])       #P(Y = interest)                                        O(m - 1) -> O(m)
-            for characteristic in characteristics:                                                                             #O((m - 1) * n) -> O(m*n)
-                prob_likelihood_evd *= (int(curr_data[characteristic]) / int(curr_data['Total']))                              #O((m - 1) * (n - 1)) -> O(m*n)
-                prob_evd *= (int(total[characteristic]) / int(total['Total']))                                                 #O((m - 1) * (n - 1)) -> O(m*n)
+            curr_data = data[data_idx]                                                                                         #O(1)
+            prior = int(curr_data['Total']) / int(total['Total'])       #P(Y = interest)                                        O(1)
+            for characteristic in characteristics:                                                                             #O(n) -> O(n)
+                prob_likelihood_evd *= (int(curr_data[characteristic]) / int(curr_data['Total']))                              #O((n - 1)) -> O(n)
+                prob_evd *= (int(total[characteristic]) / int(total['Total']))                                                 #O((n - 1)) -> O(n)
             break                                                                                                              #O(1)
-    print("Y = {3} prior: {0:.3f} prob_likelihood_evd: {1:.3f} prob_evd: {2:.3f} -> {4:.3f}".format(prior, prob_likelihood_evd, prob_evd, interest, (prob_likelihood_evd * prior) / prob_evd))
+    print("Y = {3} prior: {0:.3f} prob_likelihood_evd: {1:.3f} prob_evd: {2:.3f} -> {4:.3f}".
+    format(prior, prob_likelihood_evd, prob_evd, interest, (prob_likelihood_evd * prior) / prob_evd))
     return (prob_likelihood_evd * prior) / prob_evd                                                                            #O(1)
             
 
@@ -39,7 +40,7 @@ def predict(data,  characteristics):
     class_predictions = []                                                                                                     #O(1)
 
     for class_variable in class_variables:                                                                                     #O(p)
-        class_predictions.append(find_probability(data, class_variable, characteristics))                                      #O((p - 1)*O(find_probability)) -> O(p*(m*n))
+        class_predictions.append(find_probability(data, class_variable, characteristics))                                      #O((p - 1)*O(find_probability)) -> O(p*(m+n))
     highest_prob = max(class_predictions)                                                                                      #O(p)
 
     return class_variables[class_predictions.index(highest_prob)]                                                              #O(p)
@@ -56,4 +57,5 @@ if __name__ == "__main__":
         sys.exit()
 
     aggreated_data = populate_data('aggreated-data.csv')
-    print("Given features: " + ", ".join(characteristics) + " Navie Bayes predicted {}".format(predict(aggreated_data, characteristics)))
+    print("Given features: " + ", ".join(characteristics) + " Navie Bayes predicted {}".
+    format(predict(aggreated_data, characteristics)))
