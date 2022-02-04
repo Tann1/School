@@ -3,7 +3,7 @@ uses
     sysutils;
 
 const
-    fname = 'presidents.txt'; {file name change this variable if file name is to be changed}
+    fname = 'presidents.txt'; {file name. change this variable if file name is to be changed}
 
 type
     prezFile = text;
@@ -105,21 +105,27 @@ procedure selection_sort(var presidentArr: arrPrez; size: integer); {just a stan
     end;
 
 begin
-    presidentsArr:= input(fname, count_of_presidents, searchArray);
+    presidentsArr:= input(fname, count_of_presidents, searchArray); {searchArray is passed by reference so it's implicitly updated through address referencing}
+    WriteLn('Input Data Parsed');
+    print_presidents(presidentsArr, count_of_presidents);
+
 
     searchSize := Length(searchArray) - 1; {ignore the -1 so subtract one from the size}
-    SetLength(searches, searchSize);
+    SetLength(searches, searchSize); {allocate the proper size for serach}
+    
+    
+    
     WriteLn('All the search years');
-    for idx := 0 to searchSize - 1 do begin
+    for idx := 0 to searchSize - 1 do begin {populate/initialize searches array}
         if (searchArray[idx] = '-1') then
             break;
         searches[idx] := StrToInt(searchArray[idx]);
         Write(searches[idx], ' ');
-    end;
+    end; {end of for}
     WriteLn; WriteLn;
 
-    WriteLn('Input Data Parsed');
-    print_presidents(presidentsArr, count_of_presidents);
+
+    WriteLn('Starting the main program');
     WriteLn('Sorting Presidents . . .');
     selection_sort(presidentsArr, count_of_presidents);
     WriteLn('Sorted Presidents list');
