@@ -104,6 +104,27 @@ procedure selection_sort(var presidentArr: arrPrez; size: integer); {just a stan
         end; {end of outer loop}
     end;
 
+procedure search_by_years(var presidentArr: arrPrez; var searches : array of integer; sizeOfPresients: integer);
+    var
+        idx, year: integer;
+        found: Boolean = False;
+    begin
+        for year in searches do begin
+            Write('Search year: ', year, ' Found: ');
+            for idx:= 0 to sizeOfPresients - 1 do begin
+                if (year >= presidentsArr[idx].start_year) and (year < presidentsArr[idx].end_year) then begin
+                    found := True;
+                    with presidentsArr[idx] do
+                        WriteLn(start_year, ' ', end_year, ' ', first_name, ' ', middle_initals, ' ', last_name);
+                    break;
+                end; {end of if}
+            end; {end of inner loop}
+            if found = false then
+              WriteLn('No Match Found');
+            found := false; {reset incase it was true}
+        end; {end of outer loop}
+    end;
+
 begin
     presidentsArr:= input(fname, count_of_presidents, searchArray); {searchArray is passed by reference so it's implicitly updated through address referencing}
     WriteLn('Input Data Parsed');
@@ -131,4 +152,7 @@ begin
     WriteLn('Sorted Presidents list');
     print_presidents(presidentsArr, count_of_presidents);
 
+    WriteLn; WriteLn('Searching for respective presidents . . .');
+    WriteLn('Will find a match as long as start year <= search year < end year');
+    search_by_years(presidentsArr, searches, count_of_presidents);
 end.
