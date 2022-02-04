@@ -100,4 +100,4 @@ begin {start of main program}
     print(array02, count02);
     merge(array01, array02, array03, count01, count02);
     print(array03, count01 + count02);
-end. {end of main program}
+end. {end of main program} 
