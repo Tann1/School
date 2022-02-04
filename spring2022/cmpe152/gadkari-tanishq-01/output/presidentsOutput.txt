@@ -1,0 +1,39 @@
+Input Data Parsed
+2009 2017 Barack  Obama
+1961 1963 John  Kennedy
+1981 1989 Ronald  Reagan
+1993 2001 Bill  Clinton
+1989 1993 George H.W. Bush
+1977 1981 Jimmy  Carter
+2017 2021 Donald  Trump
+1963 1969 Lyndon  Johnson
+1969 1974 Richard  Nixon
+1974 1977 Gerald  Ford
+2001 2009 George W. Bush
+All the search years
+1975 1963 1989 2019 2001 2030 2016 
+
+Starting the main program
+Sorting Presidents . . .
+Sorted Presidents list
+1961 1963 John  Kennedy
+1963 1969 Lyndon  Johnson
+1969 1974 Richard  Nixon
+1974 1977 Gerald  Ford
+1977 1981 Jimmy  Carter
+1981 1989 Ronald  Reagan
+1989 1993 George H.W. Bush
+1993 2001 Bill  Clinton
+2001 2009 George W. Bush
+2009 2017 Barack  Obama
+2017 2021 Donald  Trump
+
+Searching for respective presidents . . .
+Will find a match as long as start year <= search year < end year
+Search year: 1975 Found: 1974 1977 Gerald  Ford
+Search year: 1963 Found: 1963 1969 Lyndon  Johnson
+Search year: 1989 Found: 1989 1993 George H.W. Bush
+Search year: 2019 Found: 2017 2021 Donald  Trump
+Search year: 2001 Found: 2001 2009 George W. Bush
+Search year: 2030 Found: No Match Found
+Search year: 2016 Found: 2009 2017 Barack  Obama
